@@ -4,22 +4,42 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import br.com.alura.orgs.R
 import br.com.alura.orgs.dao.ProdutoDAO
 import br.com.alura.orgs.model.Produto
 import java.math.BigDecimal
 import br.com.alura.orgs.databinding.ActivityFormularioProdutoBinding
+import br.com.alura.orgs.databinding.FormularioImagemBinding
+import coil.load
 
 class FormularioProdutoActivity : AppCompatActivity(R.layout.activity_formulario_produto) {
     private val binding by lazy {
         ActivityFormularioProdutoBinding.inflate(layoutInflater)
     }
+    private var url: String?: = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_formulario_produto)
         setContentView(binding.root)
         configuraBotaoSalvar()
+        binding.activityFormularioProdutoImagem.setOnClickListener {
+            val bindingFormularioImagem = FormularioImagemBinding.inflate(layoutInflater)
+            bindingFormularioImagem.formularioImagemBotaoCarregar.setOnClickListener {
+                val url = bindingFormularioImagem.formularioImagemUrl.text.toString()
+                bindingFormularioImagem.formularioImagemImageview.load(url)
+            }
+            AlertDialog
+                .Builder(this)
+                .setView(bindingFormularioImagem.root)
+                .setPositiveButton("Confirmar") { _, _ ->
+                    url = bindingFormularioImagem.formularioImagemUrl.text.toString()
+                    binding.activityFormularioProdutoImagem.load(url)
+                }
+                .setNegativeButton("Cancelar") { _, _ -> }
+                .show()
+        }
     }
 
     private fun configuraBotaoSalvar() {
@@ -51,6 +71,7 @@ class FormularioProdutoActivity : AppCompatActivity(R.layout.activity_formulario
             nome = nome,
             descricao = descricao,
             valor = valor,
+            imagem = url
         )
     }
 }

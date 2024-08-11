@@ -11,13 +11,14 @@ import br.com.alura.orgs.model.Produto
 import java.math.BigDecimal
 import br.com.alura.orgs.databinding.ActivityFormularioProdutoBinding
 import br.com.alura.orgs.databinding.FormularioImagemBinding
+import br.com.alura.orgs.extensions.tentaCarregarImagem
 import coil.load
 
 class FormularioProdutoActivity : AppCompatActivity(R.layout.activity_formulario_produto) {
     private val binding by lazy {
         ActivityFormularioProdutoBinding.inflate(layoutInflater)
     }
-    private var url: String?: = null
+    private var url: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,14 +29,14 @@ class FormularioProdutoActivity : AppCompatActivity(R.layout.activity_formulario
             val bindingFormularioImagem = FormularioImagemBinding.inflate(layoutInflater)
             bindingFormularioImagem.formularioImagemBotaoCarregar.setOnClickListener {
                 val url = bindingFormularioImagem.formularioImagemUrl.text.toString()
-                bindingFormularioImagem.formularioImagemImageview.load(url)
+                bindingFormularioImagem.formularioImagemImageview.tentaCarregarImagem(url)
             }
             AlertDialog
                 .Builder(this)
                 .setView(bindingFormularioImagem.root)
                 .setPositiveButton("Confirmar") { _, _ ->
                     url = bindingFormularioImagem.formularioImagemUrl.text.toString()
-                    binding.activityFormularioProdutoImagem.load(url)
+                    binding.activityFormularioProdutoImagem.tentaCarregarImagem(url)
                 }
                 .setNegativeButton("Cancelar") { _, _ -> }
                 .show()

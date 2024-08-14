@@ -15,6 +15,11 @@
         android:theme="@style/Theme.Orgs"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activty.DetalhesProdutoActivity"
+            android:exported="false"
+            android:label="@string/title_activity_detalhes_produto"
+            android:theme="@style/Theme.Orgs" />
+        <activity
             android:name=".ui.activty.ListaProdutosActivity"
             android:exported="true">
             <intent-filter>
@@ -24,6 +29,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activty.FormularioProdutoActivity" />
+        <activity
+            android:name=".ui.activity.DetalhesProdutoActivity"
+            android:theme="@style/Theme.Orgs.NoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"

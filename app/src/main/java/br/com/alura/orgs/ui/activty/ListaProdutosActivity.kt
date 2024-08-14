@@ -2,6 +2,7 @@ package br.com.alura.orgs.ui.activty
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 //import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import br.com.alura.orgs.dao.ProdutoDAO
 import br.com.alura.orgs.ui.recyclerview.adapter.ListaProdutosAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import br.com.alura.orgs.databinding.ActivityListaProdutosBinding
+import br.com.alura.orgs.ui.dialog.FormularioImagemDialog
 
 class ListaProdutosActivity : AppCompatActivity() {
     private val dao = ProdutoDAO()
@@ -50,8 +52,19 @@ class ListaProdutosActivity : AppCompatActivity() {
 
     private fun configuraReciclerView() {
         val recyclerView = binding.activityListaProdutosRecyclerView
+
 //        Log.i("MainActivity", "onCreate: ${dao.buscaTodos()}")
         recyclerView.adapter = adapter
+        adapter.quandoClicaNoItem = {
+            val intent = Intent(
+                this,
+                DetalhesProdutoActivity::class.java
+            ).apply {
+                // envio do produto por meio do extra
+                putExtra(CHAVE_PRODUTO, it)
+            }
+            startActivity(intent)
+        }
     }
 }
 
